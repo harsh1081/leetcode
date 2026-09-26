@@ -1,35 +1,33 @@
-#include<bits/stdc++.h>
 class Solution {
 public:
-    int f(vector<int>&weights,int cap){
-        int days = 1; int load = 0;
-        for(int i = 0; i < weights.size(); i++){
+    int finddays(vector<int>& weights,int cap){
+        int d = 1; int load = 0;
+        int n = weights.size();
+        for(int i = 0 ;i < n; i++){
             if(weights[i]+load > cap){
-                days++;
+                d++;
                 load = weights[i];
             }
             else{
                 load += weights[i];
             }
         }
-        return days;
-        
+        return d;
     }
-    
     int shipWithinDays(vector<int>& weights, int days) {
         int low = *max_element(weights.begin(),weights.end());
         int high = accumulate(weights.begin(),weights.end(),0);
-
-        while(low<=high){
+        while(low <= high){
             int mid = (low + high)/2;
-            int nd = f(weights , mid);
-            if(nd<=days){
+            int ndays = finddays(weights,mid);
+            if(ndays<=days){
                 high = mid-1;
             }
             else{
-                low = mid +1;
+                low = mid+1;
             }
         }
         return low;
+        
     }
 };
